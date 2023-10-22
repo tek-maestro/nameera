@@ -1,9 +1,12 @@
 const age = document.querySelector(".age");
 const BIRTH_DATE = new Date(2023, 9, 20, 12, 10, 0, 0);
-setInterval(()=> {
+updateAge();
+setInterval(updateAge, 1000);
+
+function updateAge() {
     const now = new Date();
     age.textContent = describeTime(now - BIRTH_DATE);
-}, 1000);
+}
 
 function describeTime(timeInMillis) {
     const units = [365, 24, 60, 60, 1000];
