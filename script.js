@@ -5,7 +5,7 @@ setInterval(updateAge, 1000);
 
 function updateAge() {
     const now = new Date();
-    let duration = getDuration(BIRTH_DATE, duration);
+    let duration = getDuration(BIRTH_DATE, now);
     age.textContent = describeTime(duration);
 }
 
