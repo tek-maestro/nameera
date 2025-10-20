@@ -8,13 +8,26 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     overflow: hidden;
     position: relative;
+    transition: background 1s ease;
 }
 
-/* Animated background particles */
+body.normal-theme {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.birthday-theme {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 50%, #6c5ce7 100%);
+    animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
 .particles {
     position: absolute;
     width: 100%;
@@ -30,6 +43,59 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     animation: float 8s infinite linear;
+}
+
+/* Birthday confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confettiFall 4s linear infinite;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Birthday balloons */
+.balloon {
+    position: absolute;
+    width: 50px;
+    height: 60px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: floatUp 6s ease-in infinite;
+    opacity: 0.8;
+}
+
+.balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 2px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px) rotate(15deg);
+        opacity: 0;
+    }
 }
 
 @keyframes float {
@@ -49,7 +115,6 @@ body {
     }
 }
 
-/* Glassmorphism container */
 .container {
     position: relative;
     z-index: 10;
@@ -74,6 +139,15 @@ body {
     animation: slideIn 1s ease-out;
     width: 100%;
     max-width: 600px;
+    transition: all 0.4s ease;
+}
+
+.glass-card.birthday-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(255, 107, 157, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 @keyframes slideIn {
@@ -85,6 +159,77 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.birthday-header {
+    display: none;
+    margin-bottom: 2rem;
+}
+
+.birthday-header.active {
+    display: block;
+    animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.birthday-emoji {
+    font-size: 4rem;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.birthday-wish {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #ffd700 50%, #ff69b4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 1rem 0;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+    }
+}
+
+.birthday-message {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+.age-milestone {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    margin: 1rem 0;
 }
 
 .title {
@@ -186,7 +331,6 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .glass-card {
         padding: 2rem 1.5rem;
@@ -198,9 +342,16 @@ body {
         margin: 0.3rem 0;
         padding: 0.5rem 1rem;
     }
+
+    .birthday-wish {
+        font-size: 1.8rem;
+    }
+
+    .birthday-emoji {
+        font-size: 3rem;
+    }
 }
 
-/* Hover effect */
 .glass-card:hover {
     transform: translateY(-5px);
     box-shadow:
